@@ -1,3 +1,4 @@
+require "pry"
 # Replace the '__' in the below methods to to make the specs pass!
 # Each '__' corresponds to a single line of code you will need to write.
 # See the example below on the left and how it should look on the right.
@@ -6,9 +7,9 @@
 # end                              # end
 
 def can_be_instantiated_and_then_saved
-  movie = __
+  movie = Movie.new 
   movie.title = "This is a title."
-  __
+  movie.save  #save it, if it's already saved does an update  
 end
 
 def can_be_created_with_a_hash_of_attributes
@@ -20,81 +21,110 @@ def can_be_created_with_a_hash_of_attributes
       lead: "Paul Newman",
       in_theaters: false
   }
-  movie = __
+  movie = Movie.create(attributes) 
 end
 
-def can_be_created_in_a_block(args = __)
+def can_be_created_in_a_block(args = {})
   # If no arguments are passed, use default values:
   # title == "Home Alone"
   # release_date == 1990
   
   Movie.create do |m|
-    __
+    m.title = args[:title] || "Home Alone"
+    m.release_date = args[:release_date] || 1990
   end
 end
 
 def can_get_the_first_item_in_the_database
-  __
+  Movie.first 
 end
 
 def can_get_the_last_item_in_the_database
-  __
+  Movie.last 
 end
 
 def can_get_size_of_the_database
-  __
+  Movie.count 
 end
 
 def can_find_the_first_item_from_the_database_using_id
-  __
+  Movie.find(1) 
+  # Movie.first 
 end
 
 def can_find_by_multiple_attributes
+
   # Search Values:
   # title == "Title"
   # release_date == 2000
   # director == "Me"
-  __
+  Movie.find_by({title: "Title", release_date: 2000, director: "Me"})
 end
 
 def can_find_using_where_clause_and_be_sorted
   # For this test return all movies released after 2002 and ordered by 
   # release date descending
-  __
+  Movie.where("release_date > 2002").order(release_date: :desc)
 end
 
 def can_be_found_updated_and_saved
   # Updtate the title "Awesome Flick" to "Even Awesomer Flick", save it, then return it
   Movie.create(title: "Awesome Flick")
-  __
-  __
-  __
-end
+  movie = Movie.find_by(title: "Awesome Flick").update(title: "Even Awesomer Flick")
+  # movie = Movie.find_by(title: "Awesome Flick")
+  # movie.update(title: "Awesome Flick") 
+  #The update method saves as well 
+end 
+
 
 def can_update_using_update_method
   # Update movie title to "Wat, huh?"
-  Movie.create(title: "Wat?")
-  __
-  __
+  Movie.create(title: "Wat?").update(title: "Wat, huh?")
+  # Movie.update(title: "Wat, huh?")
 end
 
 def can_update_multiple_items_at_once
   # Change title of all movies to "A Movie"
   5.times do |i|
     Movie.create(title: "Movie_#{i}", release_date: 2000+i)
+    Movie.update(title: "A Movie")
   end
-  __
+  # Movie.update_all(title: "A Movie")  another way of passing 
 end
 
 def can_destroy_a_single_item
-  Movie.create(title: "That One Where the Guy Kicks Another Guy Once")
-  __
-  __
+  Movie.create(title: "That One Where the Guy Kicks Another Guy Once").destroy  
 end
 
 def can_destroy_all_items_at_once
   10.times do |i|
-    Movie.create(title: "Movie_#{i}")
+    Movie.create(title: "Movie_#{i}").destroy 
   end
-  __
+# Movie.destroy_all  Destroys Everything 
 end
+
+# =begin 
+
+# An instance variable that doesn't have a value will give nil 
+# A local variable that doesn't have a value will give an error // undefined 
+
+# args[:something] #This is a Method 
+
+# #The only falsey are `false` and `nil` everything else is truthy  
+
+# =end 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
